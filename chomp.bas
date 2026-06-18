@@ -2,20 +2,20 @@
 
         dim a(9, 9)
 
-	' Randomize the RND function
-	r = rnd(-timer)
+        ' Randomize the RND function
+        r = rnd(-timer)
 
-	' Reset machine on BREAK
-	on brk goto 2000
+        ' Reset machine on BREAK
+        on brk goto 2000
 
-	' Set up video mode and palette colors
-	rgb
-	width 80
-	palette 0, 0		' background: 0 black
-	palette 8, 25 		' foreground: 0 white
+        ' Set up video mode and palette colors
+        rgb
+        width 80
+        palette 0, 0                ' background: 0 black
+        palette 8, 25                 ' foreground: 0 white
 
-	' Clear screen
-	cls
+        ' Clear screen
+        cls
 
         ' Intro
         print "CHOMP--AVOID THE POISON IN THE COOKIE"
@@ -36,7 +36,7 @@
         a(1, 1) = -1
 
         ' Display initial cookie
-	gosub 1000
+        gosub 1000
 
         ' Input move
         goto 40
@@ -47,31 +47,31 @@
 
         ' Has to be two characters
         if len(m$) <> 2 then
-		goto 30
-	end if
-	m1 = asc(left$(m$, 1))
-	m2 = asc(right$(m$, 1))
+                goto 30
+        end if
+        m1 = asc(left$(m$, 1))
+        m2 = asc(right$(m$, 1))
 
-	' First character has to be A through I
-	' Second character has to be numeric 1 through 9
+        ' First character has to be A through I
+        ' Second character has to be numeric 1 through 9
         if m1 < 65 or m1 > 73 or m2 < 49 or m2 > 57 then
-		goto 30
-	end if
+                goto 30
+        end if
 
         ' Row and column of chomp
         c = m1 - 65 + 1
         r = m2 - 49 + 1
-	v = a(r, c)
+        v = a(r, c)
 
         ' Can't chomp thin air
         if v = 0 then
-		goto 30
-	end if
+                goto 30
+        end if
 
         ' Player chomped on the poison?
         if v < 0 then
-		goto 100
-	end if
+                goto 100
+        end if
 
         ' Chomp cookie
         gosub 500
@@ -79,10 +79,10 @@
         ' Display remaining cookie
         gosub 1000
 
-	' Figure out computer's move
-	gosub 1500
-	m$ = chr$(65 + c - 1) + chr$(49 + r - 1)
-	print
+        ' Figure out computer's move
+        gosub 1500
+        m$ = chr$(65 + c - 1) + chr$(49 + r - 1)
+        print
         print "COMPUTER MOVE? "; m$
 
         ' Chomp cookie
@@ -90,8 +90,8 @@
 
         ' Did player win?
         if n = 0 then
-		goto 90
-	end if
+                goto 90
+        end if
 
         ' Display cookie
         gosub 1000
@@ -115,8 +115,8 @@
                         if a(i, j) <> 0 then
                                 a(i, j) = 0
                                 n = n - 1
-			end if
-		next j
+                        end if
+                next j
         next i
         return
 
@@ -129,11 +129,11 @@
                         b$ = "*"
                         if a(i, j) = 0 then
                                 b$ = " "
-			end if
-			if a(i, j) < 0 then
+                        end if
+                        if a(i, j) < 0 then
                                 b$ = "P"
-			end if
-			print b$; " ";
+                        end if
+                        print b$; " ";
                 next j
                 print
         next i
@@ -165,10 +165,10 @@
 1583    r = int(9 * rnd(0)) + 1
         c = int(9 * rnd(0)) + 1
         if a(r, c) <= 0 then
-		goto 1583
-	end if
+                goto 1583
+        end if
         return
 
-	' Reset the machine
-2000	poke &h71, 0
-	exec &h8c1b
+        ' Reset the machine
+2000    poke &h71, 0
+        exec &h8c1b
