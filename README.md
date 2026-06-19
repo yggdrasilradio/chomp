@@ -10,4 +10,4 @@ The computer strategy is not perfect.  I wonder what a good strategy would be.  
 first, so it should be possible for the player to win every time.
 
 `CHOMP.BAS` is the BASIC program to use; the other `chomp.bas` file is the source before
-being run through my BASIC preprocessor utility, which is in another of my repositories.
+being run through my [BASIC preprocessor utility](https://github.com/yggdrasilradio/preprocessor).
