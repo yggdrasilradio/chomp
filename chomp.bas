@@ -141,32 +141,36 @@
 
 ' Generate computer's move
 1500    s = a(2, 1) * 4 + a(2, 2) * 2 + a(1, 2) + 1
-        on s goto 1570, 1571, 1583, 1583, 1574, 1583, 1583, 1577
+        on s goto 1570, 1571, 1577, 1577, 1574, 1577, 1577, 1577
 
         ' Eat the poison if there's no other choice
 1570    r = 1
         c = 1
-        return
+        return 
 
-        ' If there's only one run, take all but the poison
+        ' If you can, take all but the poison
 1571    r = 1
         c = 2
         return
 1574    r = 2
-        c = 1
+        c = 1 
         return
 
-        ' Reduce to two runs right away
-1577    r = 2
-        c = 2
+        ' Try to mirror player's move
+1577    t = r
+        r = c
+        c = t
+        if a(r, c) <= 0 then
+		goto 1583
+	end if
         return
 
         ' Choose a random legal move
 1583    r = int(9 * rnd(0)) + 1
         c = int(9 * rnd(0)) + 1
         if a(r, c) <= 0 then
-                goto 1583
-        end if
+		goto 1583
+	end if
         return
 
         ' Reset the machine
