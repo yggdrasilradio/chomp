@@ -46,17 +46,13 @@
         input m$
 
         ' Has to be two characters
-        if len(m$) <> 2 then
-                goto 30
-        end if
+        if len(m$) <> 2 goto 30
         m1 = asc(left$(m$, 1))
         m2 = asc(right$(m$, 1))
 
         ' First character has to be A through I
         ' Second character has to be numeric 1 through 9
-        if m1 < 65 or m1 > 73 or m2 < 49 or m2 > 57 then
-                goto 30
-        end if
+        if m1 < 65 or m1 > 73 or m2 < 49 or m2 > 57 goto 30
 
         ' Row and column of chomp
         c = m1 - 65 + 1
@@ -64,14 +60,10 @@
         v = a(r, c)
 
         ' Can't chomp thin air
-        if v = 0 then
-                goto 30
-        end if
+        if v = 0 goto 30
 
         ' Player chomped on the poison?
-        if v < 0 then
-                goto 100
-        end if
+        if v < 0 goto 100
 
         ' Chomp cookie
         gosub 500
@@ -92,9 +84,7 @@
         gosub 500
 
         ' Did player win?
-        if n = 0 then
-                goto 90
-        end if
+        if n = 0 goto 90
 
         ' Display cookie
         gosub 1000
@@ -169,9 +159,7 @@
         return
 
 	' If the A column and 1 row have the same length, take B2 if you can
-1575	if (n1 <> n2) or (a(2, 2) = 0) then
-		goto 1577
-	end if
+1575	if (n1 <> n2) or (a(2, 2) = 0) goto 1577
 	r = 2
 	c = 2
 	return
@@ -180,17 +168,13 @@
 1577    t = r
         r = c
         c = t
-        if a(r, c) <= 0 then
-		goto 1583
-	end if
+        if a(r, c) <= 0 goto 1583
         return
 
         ' Choose a random legal move
 1583    r = int(9 * rnd(0)) + 1
         c = int(9 * rnd(0)) + 1
-        if a(r, c) <= 0 then
-		goto 1583
-	end if
+        if a(r, c) <= 0 goto 1583
         return
 
         ' Reset the machine
