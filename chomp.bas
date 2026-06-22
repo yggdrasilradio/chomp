@@ -79,6 +79,9 @@
         ' Display remaining cookie
         gosub 1000
 
+	' Count edge cells
+	gosub 1200
+
         ' Figure out computer's move
         gosub 1500
         m$ = chr$(65 + c - 1) + chr$(49 + r - 1)
@@ -121,7 +124,7 @@
         return
 
 ' Display cookie
-1000    print
+1000	print
         print "   A B C D E F G H I"
         for i = 1 to 9
                 print i;
@@ -137,11 +140,20 @@
                 next j
                 print
         next i
+	return
+
+' Count edge cells
+1200    n1 = 0
+        n2 = 0
+        for i = 2 to 9
+                n1 = n1 + a(i, 1)
+                n2 = n2 + a(1, i)
+        next i
         return
 
 ' Generate computer's move
 1500    s = a(2, 1) * 4 + a(2, 2) * 2 + a(1, 2) + 1
-        on s goto 1570, 1571, 1577, 1577, 1574, 1577, 1577, 1577
+        on s goto 1570, 1571, 1575, 1575, 1574, 1575, 1575, 1575
 
         ' Eat the poison if there's no other choice
 1570    r = 1
@@ -155,6 +167,14 @@
 1574    r = 2
         c = 1 
         return
+
+	' If the A column and 1 row have the same length, take B2 if you can
+1575	if (n1 <> n2) or (a(2, 2) = 0) then
+		goto 1577
+	end if
+	r = 2
+	c = 2
+	return
 
         ' Try to mirror player's move
 1577    t = r
