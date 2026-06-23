@@ -6,7 +6,7 @@
         r = rnd(-timer)
 
         ' Reset machine on BREAK
-        on brk goto 2000
+        on brk goto 500
 
         ' Set up video mode and palette colors
         rgb
@@ -36,23 +36,27 @@
         a(1, 1) = -1
 
         ' Display initial cookie
-        gosub 1000
+        gosub 200
 
         ' Input move
-        goto 40
-30      print "ILLEGAL MOVE"
-40      print
+        goto 30
+20      print "ILLEGAL MOVE"
+30      print
         print "YOUR MOVE";
         input m$
 
         ' Has to be two characters
-        if len(m$) <> 2 goto 30
+        if len(m$) <> 2 then
+		goto 20
+	end if
         m1 = asc(left$(m$, 1))
         m2 = asc(right$(m$, 1))
 
         ' First character has to be A through I
         ' Second character has to be numeric 1 through 9
-        if m1 < 65 or m1 > 73 or m2 < 49 or m2 > 57 goto 30
+        if m1 < 65 or m1 > 73 or m2 < 49 or m2 > 57 then
+		goto 20
+	end if
 
         ' Row and column of chomp
         c = m1 - 65 + 1
@@ -60,50 +64,56 @@
         v = a(r, c)
 
         ' Can't chomp thin air
-        if v = 0 goto 30
+        if v = 0 then
+		goto 20
+	end if
 
         ' Player chomped on the poison?
-        if v < 0 goto 100
+        if v < 0 then
+		goto 50
+	end if
 
         ' Chomp cookie
-        gosub 500
+        gosub 100
 
         ' Display remaining cookie
-        gosub 1000
+        gosub 200
 
 	' Count edge cells
-	gosub 1200
+	gosub 300
 
         ' Figure out computer's move
-        gosub 1500
+        gosub 400
         m$ = chr$(65 + c - 1) + chr$(49 + r - 1)
         print
         print "COMPUTER MOVE? "; m$
 
         ' Chomp cookie
-        gosub 500
+        gosub 100
 
         ' Did player win?
-        if n = 0 goto 90
+        if n = 0 then
+		goto 40
+	end if
 
         ' Display cookie
-        gosub 1000
+        gosub 200
 
         ' Next move
-        goto 40
+        goto 30
 
         ' Player wins
-90      print
+40      print
         print "PLAYER WINS!"
         goto 10
 
         ' Computer wins
-100     print
+50      print
         print "COMPUTER WINS!"
         goto 10
 
 ' Chomp cookie
-500     for i = r to 9
+100     for i = r to 9
                 for j = c to 9
                         if a(i, j) <> 0 then
                                 a(i, j) = 0
@@ -114,7 +124,7 @@
         return
 
 ' Display cookie
-1000	print
+200	print
         print "   A B C D E F G H I"
         for i = 1 to 9
                 print i;
@@ -133,7 +143,7 @@
 	return
 
 ' Count edge cells
-1200    n1 = 0
+300     n1 = 0
         n2 = 0
         for i = 2 to 9
                 n1 = n1 + a(i, 1)
@@ -142,41 +152,47 @@
         return
 
 ' Generate computer's move
-1500    s = a(2, 1) * 4 + a(2, 2) * 2 + a(1, 2) + 1
-        on s goto 1570, 1571, 1575, 1575, 1574, 1575, 1575, 1575
+400	s = a(2, 1) * 4 + a(2, 2) * 2 + a(1, 2) + 1
+        on s goto 410, 420, 440, 440, 430, 440, 440, 440
 
         ' Eat the poison if there's no other choice
-1570    r = 1
+410	r = 1
         c = 1
         return 
 
         ' If you can, take all but the poison
-1571    r = 1
+420	r = 1
         c = 2
         return
-1574    r = 2
+430	r = 2
         c = 1 
         return
 
 	' If the A column and 1 row have the same length, take B2 if you can
-1575	if (n1 <> n2) or (a(2, 2) = 0) goto 1577
+440	if (n1 <> n2) or (a(2, 2) = 0) then
+		goto 450
+	end if
 	r = 2
 	c = 2
 	return
 
         ' Try to mirror player's move
-1577    t = r
+450	t = r
         r = c
         c = t
-        if a(r, c) <= 0 goto 1583
+        if a(r, c) <= 0 then
+		goto 460
+	end if
         return
 
         ' Choose a random legal move
-1583    r = int(9 * rnd(0)) + 1
+460	r = int(9 * rnd(0)) + 1
         c = int(9 * rnd(0)) + 1
-        if a(r, c) <= 0 goto 1583
+        if a(r, c) <= 0 then
+		goto 460
+	end if
         return
 
         ' Reset the machine
-2000    poke &h71, 0
+500	poke &h71, 0
         exec &h8c1b
