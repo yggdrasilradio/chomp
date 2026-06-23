@@ -11,8 +11,8 @@
         ' Set up video mode and palette colors
         rgb
         width 80
-        palette 0, 0                ' background: 0 black
-        palette 8, 25               ' foreground: 0 white
+        palette 0, 0                ' background: black
+        palette 8, 25               ' foreground: cyan
 
         ' Clear screen
         cls
