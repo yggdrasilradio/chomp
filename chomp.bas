@@ -46,16 +46,14 @@
         input m$
 
         ' Has to be two characters
-        if len(m$) <> 2 then
-		goto 20
+        if len(m$) <> 2 goto 20
 	end if
         m1 = asc(left$(m$, 1))
         m2 = asc(right$(m$, 1))
 
         ' First character has to be A through I
         ' Second character has to be numeric 1 through 9
-        if m1 < 65 or m1 > 73 or m2 < 49 or m2 > 57 then
-		goto 20
+        if m1 < 65 or m1 > 73 or m2 < 49 or m2 > 57 goto 20
 	end if
 
         ' Row and column of chomp
@@ -64,13 +62,11 @@
         v = a(r, c)
 
         ' Can't chomp thin air
-        if v = 0 then
-		goto 20
+        if v = 0 goto 20
 	end if
 
         ' Player chomped on the poison?
-        if v < 0 then
-		goto 50
+        if v < 0 goto 50
 	end if
 
         ' Chomp cookie
@@ -92,8 +88,7 @@
         gosub 100
 
         ' Did player win?
-        if n = 0 then
-		goto 40
+        if n = 0 goto 40
 	end if
 
         ' Display cookie
@@ -169,8 +164,7 @@
         return
 
 	' If the A column and 1 row have the same length, take B2 if you can
-440	if (n1 <> n2) or (a(2, 2) = 0) then
-		goto 450
+440	if (n1 <> n2) or (a(2, 2) = 0) goto 450
 	end if
 	r = 2
 	c = 2
@@ -180,16 +174,14 @@
 450	t = r
         r = c
         c = t
-        if a(r, c) <= 0 then
-		goto 460
+        if a(r, c) <= 0 goto 460
 	end if
         return
 
         ' Choose a random legal move
 460	r = int(9 * rnd(0)) + 1
         c = int(9 * rnd(0)) + 1
-        if a(r, c) <= 0 then
-		goto 460
+        if a(r, c) <= 0 goto 460
 	end if
         return
 
